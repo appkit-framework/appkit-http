@@ -50,11 +50,34 @@ class HttpError extends AppKitException {
         505 => 'HTTP Version Not Supported',
     ];
 
-    function __construct($status = 500, $message = null, $previous = null) {
+    protected $headers;
+
+    function __construct($status = 500, $message = null, $previous = null, $headers = []) {
         parent::__construct(
-            $message ?? self::STATUS_MESSAGE[$status],
+            $message ?? self::STATUS_MESSAGE[$status] ?? 'Unknown Status',
             $status,
             $previous
         );
+        $this -> headers = $headers;
+    }
+
+    public function getHeader($name) {
+        return $this -> headers[$name] ?? null;
+    }
+
+    public function getHeaders() {
+        return $this -> headers;
+    }
+
+    public function withHeader($name, $value) {
+        $new = clone $this;
+        $new -> headers[$name] = $value;
+        return $new;
+    }
+
+    public function withoutHeader($name) {
+        $new = clone $this;
+        unset($new -> headers[$name]);
+        return $new;
     }
 }
