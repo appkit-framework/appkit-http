@@ -21,4 +21,8 @@ class HttpRedirect extends HttpError {
     public function getLocation() {
         return $this -> getHeader('Location');
     }
+
+    public function withLocation($location) {
+        return $this -> withHeader('Location', $location);
+    }
 }
