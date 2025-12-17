@@ -21,12 +21,4 @@ class HttpRedirect extends HttpError {
     public function getLocation() {
         return $this -> getHeader('Location');
     }
-
-    public function chainWithLocation($location) {
-        return new static(
-            $location,
-            $this -> getCode(),
-            $this
-        );
-    }
 }
