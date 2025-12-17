@@ -8,13 +8,14 @@ class HttpRedirect extends HttpError {
     function __construct(
         $location,
         $status = 302,
-        $previous = null
+        $previous = null,
+        $headers = []
     ) {
         parent::__construct(
             $status,
             "Redirect to $location",
             $previous,
-            [ 'Location' => $location ]
+            [ 'Location' => $location ] + $headers
         );
     }
 
