@@ -2,8 +2,6 @@
 
 namespace AppKit\Http\Exception;
 
-use AppKit\Http\Exception\HttpError;
-
 class HttpRedirect extends HttpError {
     function __construct(
         $location,
