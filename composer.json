@@ -2,10 +2,9 @@
     "name": "appkit/http",
     "type": "library",
     "description": "HTTP client/server essentials for the AppKit framework",
-    "minimum-stability": "stable",
     "license": "MIT",
     "require": {
-        "appkit/exception": "^1.0"
+        "react/http": "^1.11"
     },
     "autoload": {
         "psr-4": {

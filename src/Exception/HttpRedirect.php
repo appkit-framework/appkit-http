@@ -2,7 +2,7 @@
 
 namespace AppKit\Http\Exception;
 
-class HttpRedirect extends HttpError {
+class HttpRedirect extends HttpResponseException {
     function __construct(
         $location,
         $status = 302,
