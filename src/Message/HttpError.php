@@ -1,5 +1,5 @@
 <?php
 
-namespace AppKit\Http\Exception;
+namespace AppKit\Http\Message;
 
 class HttpError extends HttpResponseException {}

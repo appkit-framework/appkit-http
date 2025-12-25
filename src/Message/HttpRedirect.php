@@ -1,6 +1,6 @@
 <?php
 
-namespace AppKit\Http\Exception;
+namespace AppKit\Http\Message;
 
 class HttpRedirect extends HttpResponseException {
     function __construct(

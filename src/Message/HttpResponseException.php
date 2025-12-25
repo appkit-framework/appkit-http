@@ -1,6 +1,6 @@
 <?php
 
-namespace AppKit\Http\Exception;
+namespace AppKit\Http\Message;
 
 use Exception;
 

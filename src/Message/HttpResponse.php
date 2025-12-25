@@ -1,6 +1,6 @@
 <?php
 
-namespace AppKit\Http;
+namespace AppKit\Http\Message;
 
 use React\Http\Message\Response;
 
