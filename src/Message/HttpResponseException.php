@@ -40,32 +40,110 @@ class HttpResponseException extends Exception {
         505 => 'HTTP Version Not Supported',
     ];
 
+    protected $headers;
+    protected $headerNames;
+
     function __construct($status, $message = null, $headers = [], $previous = null) {
         parent::__construct(
             $message ?? self::STATUS_MESSAGE[$status] ?? 'Unknown Status',
             $status,
             $previous
         );
-        $this -> headers = $headers;
-    }
 
-    public function getHeader($name) {
-        return $this -> headers[$name] ?? null;
+        $this -> headers = [];
+        $this -> headerNames = [];
+        foreach($headers as $name => $value) {
+            if($value !== []) {
+                if(is_array($value)) {
+                    foreach($value as &$one)
+                        $one = (string) $one;
+                } else {
+                    $value = [(string) $value];
+                }
+
+                $nameLower = strtolower($name);
+                if(isset($this -> headerNames[$nameLower])) {
+                    $value = array_merge(
+                        $this -> headers[$this -> headerNames[$nameLower]],
+                        $value
+                    );
+                    unset($this -> headers[$this -> headerNames[$nameLower]]);
+                }
+
+                $this -> headers[$name] = $value;
+                $this -> headerNames[$nameLower] = $name;
+            }
+        }
     }
 
     public function getHeaders() {
         return $this -> headers;
     }
 
+    public function hasHeader($name) {
+        return isset($this -> headerNames[strtolower($name)]);
+    }
+
+    public function getHeader($name) {
+        $nameLower = strtolower($name);
+        return isset($this -> headerNames[$nameLower])
+            ? $this -> headers[$this -> headerNames[$nameLower]]
+            : [];
+    }
+
+    public function getHeaderLine($name) {
+        return implode(', ', $this -> getHeader($name));
+    }
+
     public function withHeader($name, $value) {
+        if($value === []) {
+            return $this -> withoutHeader($name);
+        } else if(is_array($value)) {
+            foreach ($value as &$one)
+                $one = (string) $one;
+        } else {
+            $value = [(string) $value];
+        }
+
+        $nameLower = strtolower($name);
+        if(
+            isset($this -> headerNames[$nameLower]) &&
+            $this -> headerNames[$nameLower] === (string) $name &&
+            $this -> headers[$this -> headerNames[$nameLower]] === $value
+        ) {
+            return $this;
+        }
+
         $new = clone $this;
+        if(isset($new -> headerNames[$nameLower]))
+            unset($new -> headers[$new -> headerNames[$nameLower]]);
         $new -> headers[$name] = $value;
+        $new -> headerNames[$nameLower] = $name;
+
         return $new;
     }
 
+    public function withAddedHeader($name, $value) {
+        if($value === [])
+            return $this;
+
+        return $this -> withHeader(
+            $name,
+            array_merge($this -> getHeader($name), is_array($value) ? $value : [$value])
+        );
+    }
+
     public function withoutHeader($name) {
+        $nameLower = strtolower($name);
+        if(!isset($this -> headerNames[$nameLower]))
+            return $this;
+
         $new = clone $this;
-        unset($new -> headers[$name]);
+        unset(
+            $new -> headers[$new - >headerNames[$nameLower]],
+            $new -> headerNames[$nameLower]
+        );
+
         return $new;
     }
 }
