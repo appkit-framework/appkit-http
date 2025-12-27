@@ -40,7 +40,7 @@ class HttpResponseException extends Exception {
         505 => 'HTTP Version Not Supported',
     ];
 
-    function __construct($status = 500, $message = null, $previous = null, $headers = []) {
+    function __construct($status, $message = null, $headers = [], $previous = null) {
         parent::__construct(
             $message ?? self::STATUS_MESSAGE[$status] ?? 'Unknown Status',
             $status,

@@ -6,14 +6,14 @@ class HttpRedirect extends HttpResponseException {
     function __construct(
         $location,
         $status = 302,
-        $previous = null,
-        $headers = []
+        $headers = [],
+        $previous = null
     ) {
         parent::__construct(
             $status,
             "Redirect to $location",
-            $previous,
-            [ 'Location' => $location ] + $headers
+            [ 'Location' => $location ] + $headers,
+            $previous
         );
     }
 
