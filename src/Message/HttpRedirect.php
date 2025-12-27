@@ -11,13 +11,16 @@ class HttpRedirect extends HttpResponseException {
     ) {
         parent::__construct(
             $status,
-            "Redirect to $location",
-            [ 'Location' => $location ] + $headers,
-            $previous
+            headers: [ 'Location' => $location ] + $headers,
+            previous: $previous
         );
     }
 
+    public function getMessage() {
+        return 'Redirect to ' . $this -> getLocation();
+    }
+
     public function getLocation() {
-        return $this -> getHeader('Location');
+        return $this -> getHeaderLine('Location');
     }
 }
