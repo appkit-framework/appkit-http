@@ -1,0 +1,15 @@
+{
+    "name": "appkit/http",
+    "type": "library",
+    "description": "HTTP client/server core abstractions for the AppKit framework",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AppKit\\Http\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
