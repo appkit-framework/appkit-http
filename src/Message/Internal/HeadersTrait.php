@@ -36,6 +36,11 @@ trait HeadersTrait {
         $this -> headers[$name] = $value;
     }
 
+    protected function setHeaders($headers) {
+        foreach($headers as $name => $value)
+            $this -> setHeader($name, $value);
+    }
+
     protected function addHeader($name, $value) {
         $this -> headers[$name][] = (string) $value;
     }

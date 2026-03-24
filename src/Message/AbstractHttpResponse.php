@@ -13,14 +13,9 @@ abstract class AbstractHttpResponse {
 
     private $status;
 
-    function __construct(
-        $status = 200,
-        $headers = [],
-        $body = ''
-    ) {
+    function __construct($status, $headers, $body) {
         $this -> setStatus($status);
-        foreach($headers as $name => $value)
-            $this -> setHeader($name, $value);
+        $this -> setHeaders($headers);
         $this -> setBody($body);
     }
 
@@ -33,8 +28,4 @@ abstract class AbstractHttpResponse {
     protected function setStatus($status) {
         $this -> status = intval($status);
     }
-
-    // Parsed body
-
-    // Cookies
 }

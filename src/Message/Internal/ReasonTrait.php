@@ -74,11 +74,7 @@ trait ReasonTrait {
 
     abstract public function getStatus();
 
-    public static function getReasonForStatus($status) {
-        return self::REASON_PHRASES[$status] ?? null;
-    }
-
     public function getReason() {
-        return self::getReasonForStatus($this -> getStatus());
+        return self::REASON_PHRASES[ $this -> getStatus() ] ?? 'Unknown Status';
     }
 }

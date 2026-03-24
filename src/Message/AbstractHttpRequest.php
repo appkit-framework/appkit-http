@@ -15,16 +15,10 @@ abstract class AbstractHttpRequest {
     private $queryParams = [];
     private $attributes = [];
 
-    function __construct(
-        $method = 'GET',
-        $url = '/',
-        $headers = [],
-        $body = ''
-    ) {
+    function __construct($method, $url, $headers, $body) {
         $this -> setMethod($method);
         $this -> setUrl($url);
-        foreach($headers as $name => $value)
-            $this -> setHeader($name, $value);
+        $this -> setHeaders($headers);
         $this -> setBody($body);
     }
 
@@ -88,12 +82,6 @@ abstract class AbstractHttpRequest {
         $this -> url = $url;
     }
 
-    // Parsed body
-
-    // Cookies
-
-    // Uploaded files
-
     // Attributes
 
     public function hasAttribute($name) {
@@ -106,5 +94,6 @@ abstract class AbstractHttpRequest {
 
     public function setAttribute($name, $value) {
         $this -> attributes[$name] = $value;
+        return $this;
     }
 }

@@ -2,27 +2,21 @@
 
 namespace AppKit\Http\Message;
 
-use AppKit\Http\Message\Internal\HeadersTrait;
-use AppKit\Http\Message\Internal\ReasonTrait;
-
 use Exception;
 
 abstract class AbstractHttpResponseException extends Exception {
-    use HeadersTrait;
-    use ReasonTrait;
+    private $response;
 
-    function __construct($status, $message = null, $headers = [], $previous = null) {
+    function __construct($response, $message, $previous = null) {
         parent::__construct(
-            $message ?? self::getReasonForStatus($status) ?? 'Unknown Status',
-            $status,
+            $message,
+            $response -> getStatus(),
             $previous
         );
-
-        foreach($headers as $name => $value)
-            $this -> setHeader($name, $value);
+        $this -> response = $response;
     }
 
-    public function getStatus() {
-        return $this -> code;
+    public function getResponse() {
+        return $this -> response;
     }
 }
