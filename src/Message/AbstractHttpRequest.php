@@ -10,14 +10,14 @@ abstract class AbstractHttpRequest {
     use BodyTrait;
 
     private $method;
-    private $url;
+    private $target;
     private $path;
     private $queryParams = [];
     private $attributes = [];
 
-    function __construct($method, $url, $headers, $body) {
+    function __construct($method, $target, $headers, $body) {
         $this -> setMethod($method);
-        $this -> setUrl($url);
+        $this -> setTarget($target);
         $this -> setHeaders($headers);
         $this -> setBody($body);
     }
@@ -32,15 +32,15 @@ abstract class AbstractHttpRequest {
         $this -> method = strtoupper($method);
     }
 
-    // URL
+    // Target
 
-    public function getUrl() {
-        return $this -> url;
+    public function getTarget() {
+        return $this -> target;
     }
 
-    protected function setUrl($url) {
-        $this -> url = $url;
-        $this -> parseUrl();
+    protected function setTarget($target) {
+        $this -> target = $target;
+        $this -> parseTarget();
     }
 
     public function getPath() {
@@ -49,7 +49,7 @@ abstract class AbstractHttpRequest {
 
     protected function setPath($path) {
         $this -> path = $path;
-        $this -> buildUrl();
+        $this -> buildTarget();
     }
 
     public function hasQueryParam($name) {
@@ -66,20 +66,20 @@ abstract class AbstractHttpRequest {
 
     protected function setQueryParam($name, $value) {
         $this -> queryParams[$name] = (string) $value;
-        $this -> buildUrl();
+        $this -> buildTarget();
     }
 
-    private function parseUrl() {
-        $parsedUrl = parse_url($this -> url);
-        $this -> path = $parsedUrl['path'] ?? '';
-        parse_str($parsedUrl['query'] ?? '', $this -> queryParams);
+    private function parseTarget() {
+        $parsedTarget = parse_url($this -> target);
+        $this -> path = $parsedTarget['path'] ?? '';
+        parse_str($parsedTarget['query'] ?? '', $this -> queryParams);
     }
 
-    private function buildUrl() {
-        $url = $this -> path;
+    private function buildTarget() {
+        $target = $this -> path;
         if(!empty($this -> queryParams))
-            $url .= '?' . http_build_query($this -> queryParams);
-        $this -> url = $url;
+            $target .= '?' . http_build_query($this -> queryParams);
+        $this -> target = $target;
     }
 
     // Attributes
