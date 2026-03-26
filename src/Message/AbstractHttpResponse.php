@@ -80,12 +80,6 @@ abstract class AbstractHttpResponse {
 
     private $status;
 
-    function __construct($status, $headers, $body) {
-        $this -> setStatus($status);
-        $this -> setHeaders($headers);
-        $this -> setBody($body);
-    }
-
     // Status
 
     public function getStatus() {

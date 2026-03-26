@@ -15,13 +15,6 @@ abstract class AbstractHttpRequest {
     private $queryParams = [];
     private $attributes = [];
 
-    function __construct($method, $target, $headers, $body) {
-        $this -> setMethod($method);
-        $this -> setTarget($target);
-        $this -> setHeaders($headers);
-        $this -> setBody($body);
-    }
-
     // Method
 
     public function getMethod() {
