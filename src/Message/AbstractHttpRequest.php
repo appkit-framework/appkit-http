@@ -23,6 +23,7 @@ abstract class AbstractHttpRequest {
 
     protected function setMethod($method) {
         $this -> method = strtoupper($method);
+        return $this;
     }
 
     // Target
@@ -34,6 +35,7 @@ abstract class AbstractHttpRequest {
     protected function setTarget($target) {
         $this -> target = $target;
         $this -> parseTarget();
+        return $this;
     }
 
     public function getPath() {
@@ -43,6 +45,7 @@ abstract class AbstractHttpRequest {
     protected function setPath($path) {
         $this -> path = $path;
         $this -> buildTarget();
+        return $this;
     }
 
     public function hasQueryParam($name) {
@@ -60,6 +63,7 @@ abstract class AbstractHttpRequest {
     protected function setQueryParam($name, $value) {
         $this -> queryParams[$name] = (string) $value;
         $this -> buildTarget();
+        return $this;
     }
 
     private function parseTarget() {

@@ -16,9 +16,11 @@ trait BodyTrait {
 
     protected function setBody($body) {
         $this -> body = $body;
+        return $this;
     }
 
     protected function setBodyText($bodyText) {
         $this -> bodyText = $bodyText;
+        return $this;
     }
 }

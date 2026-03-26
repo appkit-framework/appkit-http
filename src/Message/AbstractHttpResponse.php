@@ -92,5 +92,6 @@ abstract class AbstractHttpResponse {
 
     protected function setStatus($status) {
         $this -> status = intval($status);
+        return $this;
     }
 }

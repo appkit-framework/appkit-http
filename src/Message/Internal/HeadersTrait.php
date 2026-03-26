@@ -34,18 +34,23 @@ trait HeadersTrait {
             $one = (string) $one;
 
         $this -> headers[$name] = $value;
+
+        return $this;
     }
 
     protected function setHeaders($headers) {
         foreach($headers as $name => $value)
             $this -> setHeader($name, $value);
+        return $this;
     }
 
     protected function addHeader($name, $value) {
         $this -> headers[$name][] = (string) $value;
+        return $this;
     }
 
     protected function unsetHeader($name) {
         unset($this -> headers[$name]);
+        return $this;
     }
 }
