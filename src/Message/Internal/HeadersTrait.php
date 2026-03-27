@@ -4,13 +4,15 @@ namespace AppKit\Http\Message\Internal;
 
 trait HeadersTrait {
     private $headers = [];
+    private $headerNames = [];
 
     public function hasHeader($name) {
-        return isset($this -> headers[$name]);
+        return isset($this -> headerNames[ strtolower($name) ]);
     }
 
     public function getHeader($name) {
-        return $this -> headers[$name] ?? [];
+        $name = $this -> headerName[ strtolower($name) ] ?? null;
+        return $name ? $this -> headers[$name] : [];
     }
 
     public function getHeaderLine($name) {
@@ -33,7 +35,10 @@ trait HeadersTrait {
         foreach($value as &$one)
             $one = (string) $one;
 
+        $lower = strtolower($name);
+        $name = $this -> headerNames[$lower] ?? $name;
         $this -> headers[$name] = $value;
+        $this -> headerNames[$lower] = $name;
 
         return $this;
     }
@@ -45,12 +50,23 @@ trait HeadersTrait {
     }
 
     protected function addHeader($name, $value) {
+        $lower = strtolower($name);
+        $name = $this -> headerNames[$lower] ?? $name;
         $this -> headers[$name][] = (string) $value;
+        $this -> headerNames[$lower] = $name;
+
         return $this;
     }
 
     protected function unsetHeader($name) {
-        unset($this -> headers[$name]);
+        $lower = strtolower($name);
+        $name = $this -> headerNames[$lower] ?? null;
+
+        if($name) {
+            unset($this -> headerNames[$lower]);
+            unset($this -> headers[$name]);
+        }
+
         return $this;
     }
 }
