@@ -66,6 +66,12 @@ abstract class AbstractHttpRequest {
         return $this;
     }
 
+    protected function setQueryParams($queryParams) {
+        foreach($queryParams as $name => $value)
+            $this -> setQueryParam($name, $value);
+        return $this;
+    }
+
     private function parseTarget() {
         $parsedTarget = parse_url($this -> target);
         $this -> path = $parsedTarget['path'] ?? '';
